@@ -1,0 +1,450 @@
+test> use ipl
+switched to db ipl
+ipl> db.createCollection("CSK")
+MongoServerError: Collection ipl.CSK already exists.
+ipl> db.createCollection("CSK1")
+{ ok: 1 }
+
+ipl> db.CSK1.insertOne({ player: "MS Dhoni", role: "captain", Salary: "5000", nationality: "Indian" })
+{
+  acknowledged: true,
+  insertedId: ObjectId("64cb24efd567bbd97443cb07")
+}
+ipl> db.CSK1.insertOne({ player: "Raina", role: "Batsman", Salary: "8000", nationality: "Indian" })
+{
+  acknowledged: true,
+  insertedId: ObjectId("64cb2578d567bbd97443cb08")
+}
+ipl> db.CSK1.insertOne({ player: "Karthi", role: "Fieldsman", Salary: "7000", nationality: "Indian" })
+{
+  acknowledged: true,
+  insertedId: ObjectId("64cb25ccd567bbd97443cb09")
+}
+ipl> db.CSK1.insertOne({ player: "Siva", role: "Bowler", Salary: "4000", nationality: "Indian" })
+{
+  acknowledged: true,
+  insertedId: ObjectId("64cb25fdd567bbd97443cb0a")
+}
+ipl> db.CSK1.insertOne({ player: "Dinesh", role: "WicketKeeper", Salary: "1000", nationality: "Indian" })
+{
+  acknowledged: true,
+  insertedId: ObjectId("64cb264ed567bbd97443cb0b")
+}
+ipl> db.CSK1.find()
+[
+  {
+    _id: ObjectId("64cb24efd567bbd97443cb07"),
+    player: 'MS Dhoni',
+    role: 'captain',
+    Salary: '5000',
+    nationality: 'Indian'
+  },
+  {
+    _id: ObjectId("64cb2578d567bbd97443cb08"),
+    player: 'Raina',
+    role: 'Batsman',
+    Salary: '8000',
+    nationality: 'Indian'
+  },
+  {
+    _id: ObjectId("64cb25ccd567bbd97443cb09"),
+    player: 'Karthi',
+    role: 'Fieldsman',
+    Salary: '7000',
+    nationality: 'Indian'
+  },
+  {
+    _id: ObjectId("64cb25fdd567bbd97443cb0a"),
+    player: 'Siva',
+    role: 'Bowler',
+    Salary: '4000',
+    nationality: 'Indian'
+  },
+  {
+    _id: ObjectId("64cb264ed567bbd97443cb0b"),
+    player: 'Dinesh',
+    role: 'WicketKeeper',
+    Salary: '1000',
+    nationality: 'Indian'
+  }
+]
+
+ipl> db.CSK1.updateOne({ "player": "Raina" }, { $inc: { "salary": 8000 } })
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+Adding 4000 to all:
+
+ipl> db.CSK1.updateMany( {},{$inc:{"salary":4000}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 5,
+  modifiedCount: 5,
+  upsertedCount: 0
+}
+ipl> db.CSK1.find()
+[
+  {
+    _id: ObjectId("64cb24efd567bbd97443cb07"),
+    player: 'MS Dhoni',
+    role: 'captain',
+    Salary: '5000',
+    nationality: 'Indian',
+    salary: 4000
+  },
+  {
+    _id: ObjectId("64cb2578d567bbd97443cb08"),
+    player: 'Raina',
+    role: 'Batsman',
+    Salary: '8000',
+    nationality: 'Indian',
+    salary: 12000
+  },
+  {
+    _id: ObjectId("64cb25ccd567bbd97443cb09"),
+    player: 'Karthi',
+    role: 'Fieldsman',
+    Salary: '7000',
+    nationality: 'Indian',
+    salary: 4000
+  },
+  {
+    _id: ObjectId("64cb25fdd567bbd97443cb0a"),
+    player: 'Siva',
+    role: 'Bowler',
+    Salary: '4000',
+    nationality: 'Indian',
+    salary: 4000
+  },
+  {
+    _id: ObjectId("64cb264ed567bbd97443cb0b"),
+    player: 'Dinesh',
+    role: 'WicketKeeper',
+    Salary: '1000',
+    nationality: 'Indian',
+    salary: 4000
+  }
+]
+
+  Change role of "MSD" as "C and WK":
+ipl> db.CSK1.updateOne({"player":"MS Dhoni"},{$set:{"role":"Captain and Wicket Keeper"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+Add a New Field remark to document with name "Rohit" set Remark as TC (test captain):
+
+ipl> db.CSK1.updateOne({ "player":"Dinesh"},{$set:{"remark":"Test Captain"}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+
+ Add a New document As Number - 11, name - Anil Kumble, Salary -  10000, role - coach.
+
+ipl> db.CSK1.insertOne({ "Number":11,"name":"Anil","salary":10000,"role":"coach"})
+{
+  acknowledged: true,
+  insertedId: ObjectId("64cb2c9cd567bbd97443cb0c")
+}
+ipl> db.CSK1.find()
+[
+  {
+    _id: ObjectId("64cb24efd567bbd97443cb07"),
+    player: 'MS Dhoni',
+    role: 'Captain and Wicket Keeper',
+    Salary: '5000',
+    nationality: 'Indian',
+    salary: 4000
+  },
+  {
+    _id: ObjectId("64cb2578d567bbd97443cb08"),
+    player: 'Raina',
+    role: 'Batsman',
+    Salary: '8000',
+    nationality: 'Indian',
+    salary: 12000
+  },
+  {
+    _id: ObjectId("64cb25ccd567bbd97443cb09"),
+    player: 'Karthi',
+    role: 'Fieldsman',
+    Salary: '7000',
+    nationality: 'Indian',
+    salary: 4000
+  },
+  {
+    _id: ObjectId("64cb25fdd567bbd97443cb0a"),
+    player: 'Siva',
+    role: 'Bowler',
+    Salary: '4000',
+    nationality: 'Indian',
+    salary: 4000
+  },
+  {
+    _id: ObjectId("64cb264ed567bbd97443cb0b"),
+    player: 'Dinesh',
+    role: 'WicketKeeper',
+    Salary: '1000',
+    nationality: 'Indian',
+    salary: 4000
+  },
+  {
+    _id: ObjectId("64cb2c9cd567bbd97443cb0c"),
+    Number: 11,
+    name: 'Anil',
+    salary: 10000,
+    role: 'coach'
+  }
+]
+
+
+
+unset:
+
+ipl> db.CSK1.updateOne({ "player":"Siva"},{$unset:{"nationality":"Indian"}}
+... )
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+ipl> db.CSK1.find()
+[
+  {
+    _id: ObjectId("64cb24efd567bbd97443cb07"),
+    player: 'MS Dhoni',
+    role: 'Captain and Wicket Keeper',
+    Salary: '5000',
+    nationality: 'Indian',
+    salary: 4000
+  },
+  {
+    _id: ObjectId("64cb2578d567bbd97443cb08"),
+    player: 'Raina',
+    role: 'Batsman',
+    Salary: '8000',
+    nationality: 'Indian',
+    salary: 12000
+  },
+  {
+    _id: ObjectId("64cb25ccd567bbd97443cb09"),
+    player: 'Karthi',
+    role: 'Fieldsman',
+    Salary: '7000',
+    nationality: 'Indian',
+    salary: 4000
+  },
+  {
+    _id: ObjectId("64cb25fdd567bbd97443cb0a"),
+    player: 'Siva',
+    role: 'Bowler',
+    Salary: '4000',
+    salary: 4000
+  },
+  {
+    _id: ObjectId("64cb264ed567bbd97443cb0b"),
+    player: 'Dinesh',
+    role: 'WicketKeeper',
+    Salary: '1000',
+    nationality: 'Indian',
+    salary: 4000
+  },
+  {
+    _id: ObjectId("64cb2c9cd567bbd97443cb0c"),
+    Number: 11,
+    name: 'Anil',
+    salary: 10000,
+    role: 'coach'
+  }
+]
+
+Double ths salary of karthi:
+
+ipl> db.CSK1.updateOne({"player":"karthi"},{$mul:{"salary":2}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 0,
+  modifiedCount: 0,
+  upsertedCount: 0
+}
+ipl> db.CSK1.find()
+[
+  {
+    _id: ObjectId("64cb24efd567bbd97443cb07"),
+    player: 'MS Dhoni',
+    role: 'Captain and Wicket Keeper',
+    Salary: '5000',
+    nationality: 'Indian',
+    salary: 4000
+  },
+  {
+    _id: ObjectId("64cb2578d567bbd97443cb08"),
+    player: 'Raina',
+    role: 'Batsman',
+    Salary: '8000',
+    nationality: 'Indian',
+    salary: 12000
+  },
+  {
+    _id: ObjectId("64cb25ccd567bbd97443cb09"),
+    player: 'Karthi',
+    role: 'Fieldsman',
+    Salary: '7000',
+    nationality: 'Indian',
+    salary: 8000
+  },
+  {
+    _id: ObjectId("64cb25fdd567bbd97443cb0a"),
+    player: 'Siva',
+    role: 'Bowler',
+    Salary: '4000',
+    salary: 4000
+  },
+  {
+    _id: ObjectId("64cb264ed567bbd97443cb0b"),
+    player: 'Dinesh',
+    role: 'WicketKeeper',
+    Salary: '1000',
+    nationality: 'Indian',
+    salary: 4000
+  },
+  {
+    _id: ObjectId("64cb2c9cd567bbd97443cb0c"),
+    Number: 11,
+    name: 'Anil',
+    salary: 10000,
+    role: 'coach'
+  }
+]
+
+player name starts with S:
+ipl> db.CSK1.find({"player":{$regex:/^S/}})
+[
+  {
+    _id: ObjectId("64cb25fdd567bbd97443cb0a"),
+    player: 'Siva',
+    role: 'Bowler',
+    Salary: '4000',
+    salary: 4000
+  }
+]
+
+names in Ascending order:
+ipl> db.CSK1.find().sort({"player":1})
+[
+  {
+    _id: ObjectId("64cb2c9cd567bbd97443cb0c"),
+    Number: 11,
+    name: 'Anil',
+    salary: 10000,
+    role: 'coach'
+  },
+  {
+    _id: ObjectId("64cb264ed567bbd97443cb0b"),
+    player: 'Dinesh',
+    role: 'WicketKeeper',
+    Salary: '1000',
+    nationality: 'Indian',
+    salary: 4000
+  },
+  {
+    _id: ObjectId("64cb25ccd567bbd97443cb09"),
+    player: 'Karthi',
+    role: 'Fieldsman',
+    Salary: '7000',
+    nationality: 'Indian',
+    salary: 4000
+  },
+  {
+    _id: ObjectId("64cb24efd567bbd97443cb07"),
+    player: 'MS Dhoni',
+    role: 'Captain and Wicket Keeper',
+    Salary: '5000',
+    nationality: 'Indian',
+    salary: 4000
+  },
+  {
+    _id: ObjectId("64cb2578d567bbd97443cb08"),
+    player: 'Raina',
+    role: 'Batsman',
+    Salary: '8000',
+    nationality: 'Indian',
+    salary: 12000
+  },
+  {
+    _id: ObjectId("64cb25fdd567bbd97443cb0a"),
+    player: 'Siva',
+    role: 'Bowler',
+    Salary: '4000',
+    salary: 4000
+  }
+]
+create RCB collection
+
+ipl> db.createCollection("RCB",{})
+{ ok: 1 }
+ipl> db.RCB.insertMany([
+... {"name":"Rohit"},
+... {"name":"sachein"},
+... {"name":"siva"},
+... {"name":"Dinesh"},
+... {"name":"Raina"},
+... {"name":"MS Dhoni"}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId("64cb32ffd567bbd97443cb0d"),
+    '1': ObjectId("64cb32ffd567bbd97443cb0e"),
+    '2': ObjectId("64cb32ffd567bbd97443cb0f"),
+    '3': ObjectId("64cb32ffd567bbd97443cb10"),
+    '4': ObjectId("64cb32ffd567bbd97443cb11"),
+    '5': ObjectId("64cb32ffd567bbd97443cb12")
+  }
+}
+
+
+List the first three players of RCB.
+limit 3:
+ipl> db.RCB.find().limit(3)
+[
+  { _id: ObjectId("64cb32ffd567bbd97443cb0d"), name: 'Rohit' },
+  { _id: ObjectId("64cb32ffd567bbd97443cb0e"), name: 'sachein' },
+  { _id: ObjectId("64cb32ffd567bbd97443cb0f"), name: 'siva' }
+]
+
+
+List the 3rd and 4th document from RCB:
+ipl> db.RCB.find().skip(2).limit(2)
+[
+  { _id: ObjectId("64cb32ffd567bbd97443cb0f"), name: 'siva' },
+  { _id: ObjectId("64cb32ffd567bbd97443cb10"), name: 'Dinesh' }
+]
+
+
+count of documents
+ipl> db.CSK.count()
+DeprecationWarning: Collection.count() is deprecated. Use countDocuments or estimatedDocumentCount.
+0
+ipl> db.RCB.count()
+6
+
+Drop RCB:
+ipl> db.RCB.drop()
+true
+
